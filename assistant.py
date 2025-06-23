@@ -4,11 +4,7 @@ import pywhatkit
 import requests
 import datetime
 import webbrowser
-try:
-    import pyautogui
-    PYAUTO_AVAILABLE = True
-except:
-    PYAUTO_AVAILABLE = False
+import pyautogui
 
 WEATHER_API_KEY = "YOUR_API_KEY"
 
