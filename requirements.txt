@@ -1,0 +1,14 @@
+
+---
+
+### 📦 `requirements.txt`
+
+```txt
+Flask
+openai
+python-dotenv
+pywhatkit
+requests
+pyautogui
+webbrowser
+subprocess
