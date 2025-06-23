@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kiwi A.I</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delius&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+
+</head>
+<body>
+  <div class="container">
+    <div class="header">🫐 Kiwi A.I</div>
+
+    <div id="chatBox" class="chat-box">
+      <div class="bot-msg">Hi, I'm Kiwi. Click the mic and start speaking.</div>
+    </div>
+
+    <div class="controls">
+      <div class="mic-container">
+        <button id="micBtn" class="mic-button">🎤
+          <span class="waveform" id="waveform"></span>
+        </button>
+        <div id="listeningDots" class="listening-dots" style="display: none;">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+<footer>
+    © 2025 Priyanka Agarwal. All rights reserved.
+  </footer>
+</body>
+</html>
