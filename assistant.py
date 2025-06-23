@@ -3,9 +3,12 @@ import os
 import pywhatkit
 import requests
 import datetime
-import pyautogui
 import webbrowser
-
+try:
+    import pyautogui
+    PYAUTO_AVAILABLE = True
+except:
+    PYAUTO_AVAILABLE = False
 
 WEATHER_API_KEY = "YOUR_API_KEY"
 
@@ -39,13 +42,20 @@ def get_weather():
         pass
     return "Unable to fetch weather data."
 
+
+
 def take_screenshot():
-    folder = os.path.join(os.getcwd(), "screenshots")
-    os.makedirs(folder, exist_ok=True)
+    if not PYAUTO_AVAILABLE:
+        return "Screenshot functionality is not available on this platform."
+    
+    folder_path = os.path.join(os.getcwd(), "screenshots")
+    os.makedirs(folder_path, exist_ok=True)
+
     filename = f"screenshot_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
-    path = os.path.join(folder, filename)
-    pyautogui.screenshot().save(path)
-    return f"Screenshot saved at {path}"
+    full_path = os.path.join(folder_path, filename)
+    screenshot = pyautogui.screenshot()
+    screenshot.save(full_path)
+    return f"Screenshot saved at {full_path}"
 
 def run_Kiwi_ai(user_input):
     query = user_input.lower().strip()
