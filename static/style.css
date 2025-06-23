@@ -1,9 +1,9 @@
 body {
   margin: 0;
   padding: 0;
-  background: radial-gradient(ellipse at center, #0f2027, #203a43, #2c5364);
+  background: radial-gradient(ellipse at center, #152512, #1a2d3a, #243c4d);
   font-family: 'Delius', Tahoma, Geneva, Verdana, sans-serif;
-  color: #fff;
+  color: #f0faff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,19 +11,19 @@ body {
 }
 
 .container {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(10, 20, 30, 0.7);
   border-radius: 20px;
   padding: 2rem;
   max-width: 600px;
   width: 100%;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);
 }
 
 .header {
   font-size: 2rem;
   text-align: center;
   margin-bottom: 1rem;
-  background: linear-gradient(to right, #00c6ff, #0072ff);
+  background: linear-gradient(to right, #15ff94, #00ffc0);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -32,7 +32,7 @@ body {
   height: 400px;
   overflow-y: auto;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.04);
   border-radius: 10px;
   margin-bottom: 1rem;
 }
@@ -42,18 +42,21 @@ body {
   padding: 0.75rem 1rem;
   border-radius: 10px;
   max-width: 80%;
+  font-size: 15px;
 }
 
 .user-msg {
-  background-color: #0072ff;
+  background-color: #005baf;
   align-self: flex-end;
   margin-left: auto;
+  color: #ffffff;
 }
 
 .bot-msg {
-  background-color: #00c6ff;
+  background-color: #00b8a9;
   align-self: flex-start;
   margin-right: auto;
+  color: #000;
 }
 
 .controls {
@@ -63,7 +66,7 @@ body {
 }
 
 .mic-button {
-  background: #00c6ff;
+  background: linear-gradient(to right, #00d9ff, #00c4cc);
   border: none;
   padding: 0.75rem 1.25rem;
   border-radius: 50px;
@@ -71,10 +74,11 @@ body {
   color: white;
   font-size: 1.25rem;
   transition: background 0.3s ease;
+  box-shadow: 0 0 10px #00fff2;
 }
 
 .mic-button:hover {
-  background: #0072ff;
+  background: linear-gradient(to right, #007eff, #00e6b8);
 }
 
 .listening-dots {
@@ -87,7 +91,7 @@ body {
 .dot {
   width: 10px;
   height: 10px;
-  background-color: #fff;
+  background-color: #00ffe0;
   border-radius: 50%;
   animation: blink 1s infinite;
 }
@@ -102,17 +106,18 @@ body {
 
 @keyframes blink {
   0%, 80%, 100% {
-    opacity: 0.3;
+    opacity: 0.2;
   }
   40% {
     opacity: 1;
   }
 }
+
 footer {
   text-align: center;
   padding: 15px 10px;
   background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-  color: #000000;
+  color: #88ffe0;
   font-size: 14px;
   position: fixed;
   bottom: 0;
