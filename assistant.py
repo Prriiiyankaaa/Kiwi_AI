@@ -5,7 +5,7 @@ import requests
 import datetime
 #import pyautogui
 import webbrowser
-
+from config import apikey
 
 WEATHER_API_KEY = "03a25ff1295417cbd61db71bc48262eb"
 
