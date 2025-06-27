@@ -5,10 +5,10 @@ import webbrowser
 import os
 from dotenv import load_dotenv
 from assistant import run_Kiwi_ai
-
+from config import apikey
 
 load_dotenv()
-openai.api_key = "YOUR API KEY HERE"
+openai.api_key = apikey
 
 app = Flask(__name__)
 
