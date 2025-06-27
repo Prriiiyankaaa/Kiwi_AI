@@ -10,7 +10,12 @@ from assistant import run_Kiwi_ai
 load_dotenv()
 openai.api_key = openai.api_key = os.getenv("OPENAI_API_KEY")
 
+response = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
 
+print(response.choices[0].message["content"])
 app = Flask(__name__)
 
 @app.route("/")
