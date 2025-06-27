@@ -8,7 +8,7 @@ from assistant import run_Kiwi_ai
 
 
 load_dotenv()
-openai.api_key = openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 response = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
