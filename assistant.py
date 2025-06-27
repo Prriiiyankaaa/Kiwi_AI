@@ -74,6 +74,17 @@ def run_Kiwi_ai(user_input):
         "youtube": "https://youtube.com",
         "google": "https://google.com",
         "weather": "https://weather.com",
+        "facebook", "https://www.facebook.com"
+        "wikipedia", "https://en.wikipedia.org/wiki/Main_Page",
+        "instagram", "https://www.instagram.com",
+        "twitter", "https://x.com/",
+        "github", "https://github.com",
+        "stack overflow", "https://stackoverflow.com/",
+        "linkedin", "https://linkedin.com",
+        "gmail", "https://mail.google.com/",
+        "drive", "https://drive.google.com/",
+        "meet", "https://meet.google.com/",
+        "maps", "https://maps.google.co.in"
     }
     for site in websites:
         if f"open {site}" in query:
