@@ -1,9 +1,9 @@
 import openai
 import os
-import pywhatkit
+#import pywhatkit
 import requests
 import datetime
-import pyautogui
+#import pyautogui
 import webbrowser
 from config import apikey
 
