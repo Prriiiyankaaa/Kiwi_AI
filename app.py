@@ -8,7 +8,8 @@ from assistant import run_Kiwi_ai
 
 
 load_dotenv()
-openai.api_key = "YOUR_API_KEY_HERE"
+openai.api_key = openai.api_key = os.getenv("OPENAI_API_KEY")
+
 
 app = Flask(__name__)
 
