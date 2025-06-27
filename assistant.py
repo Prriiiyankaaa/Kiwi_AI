@@ -6,6 +6,8 @@ import datetime
 #import pyautogui
 import webbrowser
 
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
 
 WEATHER_API_KEY = "03a25ff1295417cbd61db71bc48262eb"
 
