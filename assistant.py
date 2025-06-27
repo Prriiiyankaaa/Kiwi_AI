@@ -3,10 +3,11 @@ import os
 import pywhatkit
 import requests
 import datetime
-import webbrowser
 import pyautogui
+import webbrowser
+from config import apikey
 
-WEATHER_API_KEY = "YOUR_API_KEY"
+WEATHER_API_KEY = "03a25ff1295417cbd61db71bc48262eb"
 
 def get_location():
     try:
@@ -38,29 +39,21 @@ def get_weather():
         pass
     return "Unable to fetch weather data."
 
-
-
 def take_screenshot():
-    if not PYAUTO_AVAILABLE:
-        return "Screenshot functionality is not available on this platform."
-    
-    folder_path = os.path.join(os.getcwd(), "screenshots")
-    os.makedirs(folder_path, exist_ok=True)
-
+    folder = os.path.join(os.getcwd(), "screenshots")
+    os.makedirs(folder, exist_ok=True)
     filename = f"screenshot_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
-    full_path = os.path.join(folder_path, filename)
-    screenshot = pyautogui.screenshot()
-    screenshot.save(full_path)
-    return f"Screenshot saved at {full_path}"
+    path = os.path.join(folder, filename)
+    pyautogui.screenshot().save(path)
+    return f"Screenshot saved"
 
 def run_Kiwi_ai(user_input):
     query = user_input.lower().strip()
 
-    # Weather
     if "weather" in query or "temperature" in query:
         return get_weather()
 
-    # Play music
+
     if "play" in query:
         song = query.replace("play", "").strip()
         if not song:
@@ -68,15 +61,15 @@ def run_Kiwi_ai(user_input):
         pywhatkit.playonyt(song)
         return f"Playing {song} on YouTube."
 
-    # Screenshot
+
     if "screenshot" in query:
         return take_screenshot()
 
-    # Time
+
     if "time" in query:
         return f"The time is {datetime.datetime.now().strftime('%I:%M %p')}."
 
-    # Open site
+
     websites = {
         "youtube": "https://youtube.com",
         "google": "https://google.com",
@@ -87,18 +80,48 @@ def run_Kiwi_ai(user_input):
             webbrowser.open(websites[site])
             return f"Opening {site}..."
 
-    # Open macOS apps
     apps = {
-        "notes": "Notes",
-        "safari": "Safari",
-        "vs code": "Visual Studio Code",
-    }
+            "facetime": "/System/Applications/FaceTime.app",
+            "whatsapp": "/Applications/WhatsApp.app",
+            "safari": "/Applications/Safari.app",
+            "chrome": "/Applications/Google Chrome.app",
+            "notes": "/System/Applications/Notes.app",
+            "spotify": "/Applications/Spotify.app",
+            "vscode": "/Applications/Visual Studio Code.app",
+            "calendar": "/System/Applications/Calendar.app",
+            "terminal": "/System/Applications/Utilities/Terminal.app",
+            "camera": "/System/Applications/Photo Booth.app",
+            "Prime video": "/Applications/Prime Video.app",
+            "photos": "/System/Applications/Photos.app",
+            "mail": "/System/Applications/Mail.app",
+            "maps": "/Applications/Maps.app",
+            "reminders": "/System/Applications/Reminders.app",
+            "settings": "/System/Applications/System Settings.app",
+            "music": "/System/Applications/Music.app",
+            "messages": "/System/Applications/Messages.app",
+            "contacts": "/System/Applications/Contacts.app",
+            "canva" : "/Applications/Canva.app",
+            "photoshop": "/Applications/Adobe Photoshop 2022/Adobe Photoshop 2022.app",
+            "premiere pro": "/Applications/Adobe Premiere Pro 2022/Adobe Premiere Pro 2022.app",
+            "illustrator": "/Applications/Adobe Illustrator 2022/Adobe Illustrator.app",
+            "after effects": "/Applications/Adobe After Effects 2022/Adobe After Effects 2022.app",
+            "indesign": "/Applications/Adobe InDesign 2022/Adobe InDesign 2022.app",
+            "acrobat": "/Applications/Adobe Acrobat DC/Adobe Acrobat.app",
+            "davinci resolve": "/Applications/DaVinci Resolve/DaVinci Resolve.app",
+            "blender": "/Applications/Blender.app",
+            "figma": "/Applications/Figma.app",
+            "discord": "/Applications/Discord.app",
+            "zoom": "/Applications/zoom.us.app",
+            "notion": "/Applications/Notion.app",
+            "slack": "/Applications/Slack.app",
+            "trello": "/Applications/Trello.app",
+            "telegram": "/Applications/Telegram.app",
+        }
     for app in apps:
         if f"open {app}" in query:
             os.system(f"open -a \"{apps[app]}\"")
             return f"Opening {app}..."
 
-    # GPT fallback
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
