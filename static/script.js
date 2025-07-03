@@ -2,12 +2,16 @@ const micBtn = document.getElementById("micBtn");
 const chatBox = document.getElementById("chatBox");
 const dots = document.getElementById("listeningDots");
 
-let recognition;
+let recognition = null;
 let isListening = false;
 let isSpeaking = false;
 let isGenerating = false;
+let forceRestart = false;
+let availableVoices = [];
+let pauseListening = false;
 
-// Add message to chat
+// ---------------------- Message UI ----------------------
+
 function appendMessage(role, text) {
   const msg = document.createElement("div");
   msg.className = role === "user" ? "user-msg" : "bot-msg";
@@ -16,7 +20,6 @@ function appendMessage(role, text) {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// Show loading dots
 function appendLoading() {
   const loading = document.createElement("div");
   loading.className = "bot-msg";
@@ -26,27 +29,38 @@ function appendLoading() {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// Remove loading
 function removeLoading() {
   const loading = document.getElementById("loadingBubble");
   if (loading) loading.remove();
 }
-let availableVoices = [];
 
-speechSynthesis.onvoiceschanged = () => {
+// ---------------------- Voice Loading ----------------------
+
+function loadVoices() {
   availableVoices = speechSynthesis.getVoices();
-};
+  if (!availableVoices.length) {
+    speechSynthesis.onvoiceschanged = () => {
+      availableVoices = speechSynthesis.getVoices();
+    };
+  }
+}
+loadVoices();
 
-// Speak text
+// ---------------------- Speech Synthesis ----------------------
+
 function speakText(text) {
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = "en-US";
 
-  const samantha = availableVoices.find(v => v.name === "Samantha");
-  if (samantha) {
-    utterance.voice = samantha;
+  const preferredVoices = ["Samantha", "Google US English", "Microsoft Zira"];
+  const chosenVoice = preferredVoices
+    .map(name => availableVoices.find(v => v.name === name))
+    .find(Boolean);
+
+  if (chosenVoice) {
+    utterance.voice = chosenVoice;
   } else {
-    console.warn("Samantha voice not found. Using default voice.");
+    console.warn("No preferred voice found. Using default.");
   }
 
   utterance.onstart = () => {
@@ -55,13 +69,17 @@ function speakText(text) {
 
   utterance.onend = () => {
     isSpeaking = false;
-    if (!isGenerating) startRecognition(); // Resume mic after speaking
+    // Always restart recognition after speech ends
+    console.log("🔁 Restarting recognition after speaking.");
+    forceRestart = true;
+    startRecognition();
   };
 
   speechSynthesis.speak(utterance);
 }
 
-// Send text to backend
+// ---------------------- Backend Communication ----------------------
+
 function sendToBackend(text) {
   appendLoading();
   isGenerating = true;
@@ -76,77 +94,111 @@ function sendToBackend(text) {
       removeLoading();
       isGenerating = false;
       const reply = data.response;
-      appendMessage("bot", "Kiwi: " + reply);
+      appendMessage("bot", reply);
       speakText(reply);
     })
     .catch(err => {
       removeLoading();
       isGenerating = false;
       const fail = "Sorry, I couldn't get a response.";
-      appendMessage("bot", "Kiwi: " + fail);
+      appendMessage("bot", fail);
       speakText(fail);
     });
 }
 
-// Start speech recognition
-function startRecognition() {
-  if (isGenerating || isSpeaking) {
-    console.log("Not starting recognition - still generating or speaking.");
-    return;
-  }
+// ---------------------- Speech Recognition ----------------------
 
+function createRecognition() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
     alert("Speech recognition not supported in this browser.");
-    return;
+    return null;
   }
 
-  console.log("Starting speech recognition...");
-  recognition = new SpeechRecognition();
-  recognition.lang = "en-IN";
-  recognition.continuous = false;
-  recognition.interimResults = false;
+  const recog = new SpeechRecognition();
+  recog.lang = "en-IN";
+  recog.continuous = false;
+  recog.interimResults = false;
 
-  recognition.onstart = () => {
+  recog.onstart = () => {
     console.log("🎙️ Speech recognition started");
     isListening = true;
-    dots.style.display = "flex";
+    if (dots) dots.style.display = "flex";
   };
 
-  recognition.onresult = (event) => {
-    const text = event.results[0][0].transcript;
+  recog.onresult = (event) => {
+    const text = event.results?.[0]?.[0]?.transcript?.trim();
+    if (!text) return;
+
     console.log("✅ Recognized text:", text);
     appendMessage("user", text);
-    dots.style.display = "none";
-    recognition.stop();
+    if (dots) dots.style.display = "none";
+    recog.stop();
     isListening = false;
     sendToBackend(text);
   };
 
-  recognition.onerror = (e) => {
+  recog.onerror = (e) => {
     console.error("❌ Speech recognition error:", e.error);
-    dots.style.display = "none";
+    if (dots) dots.style.display = "none";
     isListening = false;
+    recog.stop();
   };
 
-  recognition.onend = () => {
+  recog.onend = () => {
     console.log("🛑 Speech recognition ended");
     isListening = false;
-    if (!isGenerating && !isSpeaking) {
+    if (!isGenerating && !isSpeaking && forceRestart) {
       console.log("Restarting recognition...");
       startRecognition();
     }
   };
 
-  recognition.start();
+  return recog;
+}
+
+function startRecognition() {
+  if (pauseListening) {
+    console.log("⏸️ Recognition is paused. Not starting.");
+    return;
+  }
+
+  if (isGenerating || isSpeaking) {
+    console.log("⏳ Not starting recognition - generating or speaking.");
+    return;
+  }
+
+  if (!recognition) {
+    recognition = createRecognition();
+    if (!recognition) return;
+  }
+
+  try {
+    recognition.start();
+  } catch (err) {
+    console.warn("⚠️ Could not start recognition:", err.message);
+  }
+}
+function togglePause() {
+  pauseListening = !pauseListening;
+
+  if (pauseListening && recognition) {
+    recognition.abort();
+    console.log("🛑 Listening paused.");
+  } else {
+    console.log("▶️ Listening resumed.");
+    startRecognition();
+  }
 }
 
 
-// Mic click starts fresh session
+// ---------------------- Mic Button ----------------------
+
 micBtn.addEventListener("click", () => {
   if (recognition) recognition.abort();
   isGenerating = false;
   isSpeaking = false;
   isListening = false;
+  forceRestart = true;
   startRecognition();
 });
