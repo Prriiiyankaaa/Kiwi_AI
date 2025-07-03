@@ -1,7 +1,7 @@
-# 🥝 Kiwi_AI – Voice-Activated Chat Assistant
+# 🥝 Kiwi_AI – Voice Assistant
 
 
-Blueberry A.I is a locally running, voice-activated assistant that uses OpenAI's GPT-3.5 to respond to your questions. It supports real-time speech recognition, speech synthesis, browser/app launching, weather fetching, and more — all from a beautiful dark-themed interface.
+Kiwi A.I is a locally running, voice chat assistant that uses OpenAI's GPT-3.5 to respond to your questions. It supports real-time speech recognition, speech synthesis, browser/app launching, weather fetching, and more — all from a beautiful dark-themed interface.
 
 ---
 
@@ -15,6 +15,7 @@ Blueberry A.I is a locally running, voice-activated assistant that uses OpenAI's
 - 🎵 Play music via YouTube
 - 🌐 Open websites and macOS apps
 - 🖥️ Dark-mode web UI with animated effects
+- 💬 Speech-to-text recongnition
 
 ---
 
@@ -25,6 +26,11 @@ Blueberry A.I is a locally running, voice-activated assistant that uses OpenAI's
 - **APIs**: OpenAI, OpenWeatherMap
 
 ---
+
+## Deployment
+ You can deploy it by running http://localhost:5000 on your device.
+
+ ---
 
 ## ⚙️ Installation
 
