@@ -64,32 +64,6 @@ def handle_voice_request():
 
     return jsonify({"response": reply})
 
-@app.route("/action", methods=["POST"])
-def action():
-    try:
-        command = request.json.get("command", "").lower()
-        print(f"Checking action for: {command}")
-
-        if "open youtube" in command:
-            webbrowser.open("https://youtube.com")
-        elif "open google" in command:
-            webbrowser.open("https://google.com")
-        elif "open weather" in command:
-            webbrowser.open("https://weather.com")
-        elif "open notes" in command:
-            subprocess.run(["open", "-a", "Notes"])
-        elif "open safari" in command:
-            subprocess.run(["open", "-a", "Safari"])
-        elif "open vs code" in command or "open code" in command:
-            subprocess.run(["open", "-a", "Visual Studio Code"])
-        elif "shutdown" in command or "exit" in command:
-            os._exit(0)
-
-        return jsonify({"status": "ok"})
-
-    except Exception as e:
-        print("Action error:", e)
-        return jsonify({"status": "failed", "error": str(e)})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
