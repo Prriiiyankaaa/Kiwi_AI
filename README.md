@@ -5,30 +5,33 @@ Kiwi A.I is a locally running, voice chat assistant that uses OpenAI's GPT-3.5 t
 
 ---
 
-## 💡 Features
+## 💡 Project Overview
 
-- 🎤 Voice input using Web Speech API
-- 🗣️ Speech output using SpeechSynthesis API
-- 🤖 AI chat via OpenAI GPT-3.5 
-- 🌤️ Real-time weather updates
-- 📸 Screenshot capturing
-- 🎵 Play music via YouTube
-- 🌐 Open websites and macOS apps
-- 🖥️ Dark-mode web UI with animated effects
-- 💬 Speech-to-text recongnition
+
+Kiwi simplifies your digital life by combining **voice recognition**, and **system-level automation** in one smart assistant. Whether you're a student, developer, or busy multitasker, Kiwi helps you:
+
+- 💬 Respond with **AI-generated answers**
+- 🎤 Continuously **converse** with voice
+- 🌐 Perform **Google searches**
+- 🖥️ Open **macOS system apps** or websites
+- 📸 Take **screenshots**
+- 🗣️ Speak responses using text-to-speech
+- 📢 Recognise commands using speech-to-text
+- 🎧 Run fully **locally** 
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: HTML, CSS, JavaScript
+- **Frontend**: HTML, CSS, JavaScript (Web Speech API) 
 - **Backend**: Python, Flask
 - **APIs**: OpenAI, OpenWeatherMap
+- **AI Engine**: OpenAI GPT-3.5
 
 ---
 
-## Deployment
- You can deploy it by running http://localhost:5000 on your device.
+## Running
+ Open http://localhost:5000 with your browser to see the result.
 
  ---
 
