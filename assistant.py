@@ -1,9 +1,7 @@
 import openai
 import os
-#import pywhatkit
 import requests
 import datetime
-#import pyautogui
 import webbrowser
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
